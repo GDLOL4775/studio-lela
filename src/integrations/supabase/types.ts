@@ -376,7 +376,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_appointment_slots: {
+        Row: {
+          duration_minutes: number | null
+          id: string | null
+          starts_at: string | null
+          status: Database["public"]["Enums"]["appointment_status"] | null
+        }
+        Insert: {
+          duration_minutes?: number | null
+          id?: string | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+        }
+        Update: {
+          duration_minutes?: number | null
+          id?: string | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+        }
+        Relationships: []
+      }
+      public_schedule_blocks: {
+        Row: {
+          ends_at: string | null
+          id: string | null
+          starts_at: string | null
+        }
+        Insert: {
+          ends_at?: string | null
+          id?: string | null
+          starts_at?: string | null
+        }
+        Update: {
+          ends_at?: string | null
+          id?: string | null
+          starts_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
