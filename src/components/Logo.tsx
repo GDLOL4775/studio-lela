@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import logoImg from "@/assets/studio-lela-logo.png";
 
 interface LogoProps {
   className?: string;
@@ -7,28 +7,19 @@ interface LogoProps {
 }
 
 /**
- * Studio Lela logo placeholder.
- * Replace `<Sparkles />` icon with the real logo image when available.
+ * Studio Lela logo. The image already includes the wordmark, so we render
+ * it standalone. `variant="light"` adds a subtle brightness for dark backgrounds.
  */
-export function Logo({ className = "", showText = true, variant = "dark" }: LogoProps) {
-  const textColor = variant === "light" ? "text-primary-foreground" : "text-foreground";
+export function Logo({ className = "", variant = "dark" }: LogoProps) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <div className="relative">
-        <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center shadow-soft">
-          <Sparkles className="w-5 h-5 text-primary-foreground" strokeWidth={2.2} />
-        </div>
-      </div>
-      {showText && (
-        <div className="flex flex-col leading-tight">
-          <span className={`font-serif text-xl font-semibold tracking-wide ${textColor}`}>
-            Studio Lela
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-            nail studio
-          </span>
-        </div>
-      )}
+    <div className={`flex items-center ${className}`}>
+      <img
+        src={logoImg}
+        alt="Studio Lela – Beauty Salon"
+        className={`h-14 md:h-16 w-auto object-contain ${
+          variant === "light" ? "brightness-0 invert" : ""
+        }`}
+      />
     </div>
   );
 }
