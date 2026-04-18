@@ -61,17 +61,16 @@ export function BookingSection() {
       const dStart = startOfDay(date).toISOString();
       const dEnd = endOfDay(date).toISOString();
       const [{ data: b }, { data: a }] = await Promise.all([
-        supabase
-          .from("schedule_blocks")
+        (supabase as any)
+          .from("public_schedule_blocks")
           .select("starts_at,ends_at")
           .lte("starts_at", dEnd)
           .gte("ends_at", dStart),
-        supabase
-          .from("appointments")
+        (supabase as any)
+          .from("public_appointment_slots")
           .select("starts_at,duration_minutes")
           .gte("starts_at", dStart)
-          .lte("starts_at", dEnd)
-          .neq("status", "cancelado"),
+          .lte("starts_at", dEnd),
       ]);
       setBlocks(b || []);
       setBooked(a || []);
