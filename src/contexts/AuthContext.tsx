@@ -8,6 +8,7 @@ type AuthContextValue = {
   isAdmin: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
+  refreshRole: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -55,8 +56,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq("user_id", userId)
       .eq("role", "admin")
       .maybeSingle();
-    if (!error && data) setIsAdmin(true);
-    else setIsAdmin(false);
+    if (error) {
+      console.error("[Auth] checkAdmin error:", error);
+      setIsAdmin(false);
+      return;
+    }
+    setIsAdmin(!!data);
+  }
+
+  async function refreshRole() {
+    if (user) await checkAdmin(user.id);
   }
 
   async function signOut() {
@@ -64,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, isAdmin, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, isAdmin, loading, signOut, refreshRole }}>
       {children}
     </AuthContext.Provider>
   );
