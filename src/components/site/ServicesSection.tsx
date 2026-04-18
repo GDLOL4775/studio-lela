@@ -48,9 +48,9 @@ export function ServicesSection() {
             ? Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton key={i} className="h-44 rounded-2xl" />
               ))
-            : services.map((s) => {
-                // @ts-expect-error icon dynamic
-                const Icon = (Icons[s.icon || "Sparkles"] as typeof Icons.Sparkles) || Icons.Sparkles;
+              : services.map((s) => {
+                const iconKey = (s.icon || "Sparkles") as keyof typeof Icons;
+                const Icon = (Icons[iconKey] as typeof Icons.Sparkles) || Icons.Sparkles;
                 return (
                   <Card
                     key={s.id}
