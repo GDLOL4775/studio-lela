@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   const [week, setWeek] = useState(0);
   const [clients, setClients] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [upcoming, setUpcoming] = useState<Database["public"]["Tables"]["appointments"]["Row"]>([]);
+  const [upcoming, setUpcoming] = useState<Database["public"]["Tables"]["appointments"]["Row"][]>([]);
 
   useEffect(() => {
     (async () => {
