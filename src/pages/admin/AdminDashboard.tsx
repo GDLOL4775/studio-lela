@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Database } from "@/integrations/supabase/types";
 import { Card } from "@/components/ui/card";
 import { CalendarCheck, Users, DollarSign, CalendarDays } from "lucide-react";
 import { formatBRL, formatDateTimeBR } from "@/lib/studio";
