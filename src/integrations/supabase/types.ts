@@ -74,6 +74,24 @@ export type Database = {
           },
         ]
       }
+      booking_rate_limit: {
+        Row: {
+          created_at: string
+          id: string
+          ip: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip?: string
+        }
+        Relationships: []
+      }
       clients: {
         Row: {
           created_at: string
