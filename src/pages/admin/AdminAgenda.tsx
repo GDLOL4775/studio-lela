@@ -35,7 +35,7 @@ export default function AdminAgenda() {
   useEffect(() => { load(); }, []);
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from("appointments").update({ status: status as any }).eq("id", id);
+    await supabase.from("appointments").update({ status: status as "pendente" | "confirmado" | "cancelado" | "concluido" }).eq("id", id);
     toast.success("Status atualizado");
     load();
   }

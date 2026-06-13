@@ -61,12 +61,12 @@ export function BookingSection() {
       const dStart = startOfDay(date).toISOString();
       const dEnd = endOfDay(date).toISOString();
       const [{ data: b }, { data: a }] = await Promise.all([
-        (supabase as any)
+        supabase
           .from("public_schedule_blocks")
           .select("starts_at,ends_at")
           .lte("starts_at", dEnd)
           .gte("ends_at", dStart),
-        (supabase as any)
+        supabase
           .from("public_appointment_slots")
           .select("starts_at,duration_minutes")
           .gte("starts_at", dStart)
@@ -116,8 +116,9 @@ export function BookingSection() {
       },
     });
 
-    if (error || (result && (result as any).error)) {
-      const msg = (result as any)?.error || "Não conseguimos salvar seu agendamento. Tente novamente.";
+    const resultError = result && typeof result === "object" && "error" in result ? (result as { error?: string }).error : undefined;
+    if (error || resultError) {
+      const msg = resultError || "Não conseguimos salvar seu agendamento. Tente novamente.";
       console.error(error || msg);
       toast.error(typeof msg === "string" ? msg : "Não conseguimos salvar seu agendamento.");
       setSubmitting(false);
