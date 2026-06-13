@@ -15,7 +15,7 @@ export function AboutSection() {
           <div className="rounded-[2rem] overflow-hidden shadow-elegant aspect-[4/5] max-w-md mx-auto">
             <img
               src={leticiaImg}
-              alt="Letícia Santana Pereira, fundadora do Studio Lela"
+              alt="Letícia Santana Pereira, fundadora do LS Nails Studio"
               loading="lazy"
               className="w-full h-full object-cover"
             />
@@ -31,7 +31,7 @@ export function AboutSection() {
             Conheça <span className="text-accent italic">Letícia Santana</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Fundadora do Studio Lela e manicure profissional, Letícia transformou sua paixão por nail art em
+            Fundadora do LS Nails Studio e manicure profissional, Letícia transformou sua paixão por nail art em
             arte. Em cada atendimento, oferece dedicação, técnica e o carinho que toda mulher merece.
           </p>
           <p className="text-muted-foreground leading-relaxed">

@@ -28,7 +28,7 @@ export function SiteHeader() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between py-3">
-        <a href="#hero" aria-label="Studio Lela início">
+        <a href="#hero" aria-label="LS Nails Studio início">
           <Logo />
         </a>
 

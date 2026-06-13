@@ -67,7 +67,7 @@ export function GallerySection() {
             >
               <img
                 src={img.url}
-                alt={img.caption || `Trabalho do Studio Lela ${i + 1}`}
+                alt={img.caption || `Trabalho do LS Nails Studio ${i + 1}`}
                 loading="lazy"
                 className="w-full h-full object-cover group-hover:scale-105 transition-bounce"
               />

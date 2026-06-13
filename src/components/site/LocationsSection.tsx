@@ -55,7 +55,7 @@ export function LocationsSection() {
 
             <p className="text-muted-foreground mb-4">
               Atendo em toda a região de <strong className="text-foreground">Praia Grande – SP</strong> e
-              cidades vizinhas. Leve a experiência do Studio Lela para o conforto da sua casa.
+              cidades vizinhas. Leve a experiência do LS Nails Studio para o conforto da sua casa.
             </p>
 
             <ul className="space-y-2 mb-6 text-sm text-muted-foreground">

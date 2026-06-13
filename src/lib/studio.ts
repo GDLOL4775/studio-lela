@@ -1,5 +1,5 @@
 export const STUDIO = {
-  name: "Studio Lela",
+  name: "LS Nails Studio",
   founder: "Letícia Santana Pereira",
   tagline: "Unhas impecáveis, cuidado que você merece.",
   city: "Praia Grande – SP",

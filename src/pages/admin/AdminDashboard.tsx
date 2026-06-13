@@ -61,7 +61,7 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl font-semibold">Visão Geral</h2>
-        <p className="text-muted-foreground text-sm">Resumo da semana no Studio Lela.</p>
+        <p className="text-muted-foreground text-sm">Resumo da semana no LS Nails Studio.</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
