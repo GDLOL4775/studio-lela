@@ -40,7 +40,7 @@ export default function AdminDashboard() {
       setToday(c1 ?? 0);
       setWeek(c2 ?? 0);
       setClients(c3 ?? 0);
-      const rev = (fin || []).reduce((sum, e: any) => sum + (e.type === "entrada" ? Number(e.value) : -Number(e.value)), 0);
+      const rev = (fin || []).reduce((sum, e: { value: number; type: string }) => sum + (e.type === "entrada" ? Number(e.value) : -Number(e.value)), 0);
       setRevenue(rev);
       setUpcoming(up || []);
     })();
