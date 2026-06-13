@@ -25,7 +25,7 @@ export default function AdminFinance() {
 
   async function load() {
     const { data } = await supabase.from("financial_entries").select("*").order("entry_date", { ascending: false });
-    setItems((data as any) || []);
+    setItems((data || []) as Entry[]);
   }
   useEffect(() => { load(); }, []);
 
@@ -66,7 +66,7 @@ export default function AdminFinance() {
           <div><Label className="text-xs">Categoria</Label><Input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} /></div>
           <div><Label className="text-xs">Valor</Label><Input type="number" step="0.01" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} /></div>
           <div><Label className="text-xs">Tipo</Label>
-            <Select value={form.type} onValueChange={(v: any) => setForm({ ...form, type: v })}>
+            <Select value={form.type} onValueChange={(v: string) => setForm({ ...form, type: v as "entrada" | "saida" })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="entrada">Entrada</SelectItem><SelectItem value="saida">Saída</SelectItem></SelectContent>
             </Select>

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { Database } from "@/integrations/supabase/types";
 import { Card } from "@/components/ui/card";
 import { CalendarCheck, Users, DollarSign, CalendarDays } from "lucide-react";
 import { formatBRL, formatDateTimeBR } from "@/lib/studio";
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
+type UpcomingAppt = Pick<Database["public"]["Tables"]["appointments"]["Row"], "id" | "client_name" | "service_name" | "starts_at" | "status">;
+
 export default function AdminDashboard() {
   const [today, setToday] = useState(0);
   const [week, setWeek] = useState(0);
   const [clients, setClients] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [upcoming, setUpcoming] = useState<any[]>([]);
+  const [upcoming, setUpcoming] = useState<UpcomingAppt[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +40,7 @@ export default function AdminDashboard() {
       setToday(c1 ?? 0);
       setWeek(c2 ?? 0);
       setClients(c3 ?? 0);
-      const rev = (fin || []).reduce((sum, e: any) => sum + (e.type === "entrada" ? Number(e.value) : -Number(e.value)), 0);
+      const rev = (fin || []).reduce((sum, e: { value: number; type: string }) => sum + (e.type === "entrada" ? Number(e.value) : -Number(e.value)), 0);
       setRevenue(rev);
       setUpcoming(up || []);
     })();
