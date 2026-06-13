@@ -105,25 +105,21 @@ export function BookingSection() {
     const slotRow = schedule.find((r) => r.weekday === parsed.data.starts_at.getDay());
     const duration = slotRow?.slot_minutes ?? 60;
 
-    // Upsert client (best-effort) — INSERT only allowed publicly
-    await supabase.from("clients").insert({
-      name: parsed.data.name,
-      phone: parsed.data.phone,
-    }).select().maybeSingle();
-
-    const { error } = await supabase.from("appointments").insert({
-      service_id: service.id,
-      service_name: service.name,
-      client_name: parsed.data.name,
-      client_phone: parsed.data.phone,
-      starts_at: parsed.data.starts_at.toISOString(),
-      duration_minutes: duration,
-      status: "pendente",
+    const { data: result, error } = await supabase.functions.invoke("create-booking", {
+      body: {
+        name: parsed.data.name,
+        phone: parsed.data.phone,
+        service_id: service.id,
+        service_name: service.name,
+        starts_at: parsed.data.starts_at.toISOString(),
+        duration_minutes: duration,
+      },
     });
 
-    if (error) {
-      console.error(error);
-      toast.error("Não conseguimos salvar seu agendamento. Tente novamente.");
+    if (error || (result && (result as any).error)) {
+      const msg = (result as any)?.error || "Não conseguimos salvar seu agendamento. Tente novamente.";
+      console.error(error || msg);
+      toast.error(typeof msg === "string" ? msg : "Não conseguimos salvar seu agendamento.");
       setSubmitting(false);
       return;
     }
