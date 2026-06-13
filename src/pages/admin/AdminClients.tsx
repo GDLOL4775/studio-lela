@@ -37,7 +37,7 @@ export default function AdminClients() {
     <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl font-semibold">Clientes</h2>
-        <p className="text-muted-foreground text-sm">Lista de todas as clientes do Studio Lela.</p>
+        <p className="text-muted-foreground text-sm">Lista de todas as clientes do LS Nails Studio.</p>
       </div>
 
       <div className="relative max-w-sm">

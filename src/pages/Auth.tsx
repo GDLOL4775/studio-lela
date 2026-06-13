@@ -37,7 +37,7 @@ export default function Auth() {
         <div className="flex justify-center mb-6">
           <Logo />
         </div>
-        <h1 className="font-serif text-2xl font-semibold text-center mb-2">Painel Studio Lela</h1>
+        <h1 className="font-serif text-2xl font-semibold text-center mb-2">Painel LS Nails Studio</h1>
         <p className="text-sm text-muted-foreground text-center mb-6">
           Entre com sua conta Google para acessar o painel administrativo.
         </p>

@@ -51,7 +51,7 @@ export function HeroSection() {
               loop
               muted
               playsInline
-              aria-label="Vídeo do Studio Lela"
+              aria-label="Vídeo do LS Nails Studio"
               className="w-full h-full object-cover aspect-[4/3]"
             />
           </div>

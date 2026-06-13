@@ -103,7 +103,7 @@ export function AdminLayout({ children }: { children?: ReactNode }) {
         <div className="flex-1 flex flex-col">
           <header className="h-14 border-b border-border bg-card/50 backdrop-blur-md flex items-center px-4 sticky top-0 z-30">
             <SidebarTrigger />
-            <h1 className="ml-3 font-serif text-lg font-semibold">Painel Studio Lela</h1>
+            <h1 className="ml-3 font-serif text-lg font-semibold">Painel LS Nails Studio</h1>
           </header>
           <main className="flex-1 p-4 md:p-8">
             {children ?? <Outlet />}
