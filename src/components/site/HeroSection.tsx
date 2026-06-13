@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import heroVideo from "@/assets/hero-nails.mp4.asset.json";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { STUDIO } from "@/lib/studio";
 
@@ -46,7 +45,7 @@ export function HeroSection() {
         <div className="relative animate-scale-in">
           <div className="relative rounded-[2rem] overflow-hidden shadow-elegant">
             <video
-              src={heroVideo.url}
+              src="/hero-nails.mp4"
               autoPlay
               loop
               muted
