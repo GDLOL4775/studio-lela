@@ -7,12 +7,14 @@ import { formatBRL, formatDateTimeBR } from "@/lib/studio";
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
+type UpcomingAppt = Pick<Database["public"]["Tables"]["appointments"]["Row"], "id" | "client_name" | "service_name" | "starts_at" | "status">;
+
 export default function AdminDashboard() {
   const [today, setToday] = useState(0);
   const [week, setWeek] = useState(0);
   const [clients, setClients] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [upcoming, setUpcoming] = useState<Database["public"]["Tables"]["appointments"]["Row"][]>([]);
+  const [upcoming, setUpcoming] = useState<UpcomingAppt[]>([]);
 
   useEffect(() => {
     (async () => {
