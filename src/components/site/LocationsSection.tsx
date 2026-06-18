@@ -29,8 +29,11 @@ export function LocationsSection() {
             <div className="flex items-start gap-2 text-sm mb-4">
               <Clock className="w-4 h-4 mt-0.5 text-accent shrink-0" />
               <div>
-                <p className="font-medium text-foreground">Segunda a Sábado</p>
-                <p className="text-muted-foreground">09:00 às 18:00</p>
+                <p className="font-medium text-foreground">Horários</p>
+                <p className="text-muted-foreground">Seg e Qui: 13h – 17h</p>
+                <p className="text-muted-foreground">Ter, Qua e Sex: 13h – 17h30</p>
+                <p className="text-muted-foreground">Sáb: 10h – 17h30</p>
+                <p className="text-muted-foreground">Dom: fechado</p>
               </div>
             </div>
 
