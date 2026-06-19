@@ -13,6 +13,65 @@ const BodySchema = z.object({
 
 const MAX_PER_HOUR = 5;
 
+async function sendTelegramNotification(appointment: {
+  name: string;
+  phone: string;
+  service_name: string;
+  starts_at: string;
+  duration_minutes: number;
+  id: string;
+}) {
+  const token = Deno.env.get("TELEGRAM_BOT_TOKEN");
+  const chatId = Deno.env.get("TELEGRAM_CHAT_ID");
+
+  if (!token || !chatId) {
+    console.warn("Telegram env vars not set, skipping notification");
+    return;
+  }
+
+  const startsAt = new Date(appointment.starts_at);
+  const formattedDate = startsAt.toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    weekday: "long",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  const formattedTime = startsAt.toLocaleTimeString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const message =
+    `💅 *Novo agendamento — Studio Lela*\n\n` +
+    `👤 *Cliente:* ${appointment.name}\n` +
+    `📞 *WhatsApp:* ${appointment.phone}\n` +
+    `✨ *Serviço:* ${appointment.service_name}\n` +
+    `📅 *Data:* ${formattedDate}\n` +
+    `🕐 *Horário:* ${formattedTime}\n` +
+    `⏱️ *Duração:* ${appointment.duration_minutes} min\n` +
+    `🆔 *ID:* \`${appointment.id}\``;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+        parse_mode: "Markdown",
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Telegram API error:", err);
+    }
+  } catch (e) {
+    console.error("Failed to send Telegram notification:", e);
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -107,6 +166,16 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+
+  // Send Telegram notification (best effort — não bloqueia a resposta)
+  await sendTelegramNotification({
+    name: data.name,
+    phone: data.phone,
+    service_name: data.service_name,
+    starts_at: data.starts_at,
+    duration_minutes: data.duration_minutes,
+    id: inserted.id,
+  });
 
   return new Response(JSON.stringify({ ok: true, id: inserted.id }), {
     status: 200,
