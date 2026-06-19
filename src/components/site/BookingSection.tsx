@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  computeAvailableSlots,
+  computeSlotsWithStatus,
   formatSlot,
   WeeklyScheduleRow,
   ScheduleBlock,
@@ -80,7 +80,7 @@ export function BookingSection() {
 
   const slots = useMemo(() => {
     if (!date) return [];
-    return computeAvailableSlots(date, schedule, blocks, booked);
+    return computeSlotsWithStatus(date, schedule, blocks, booked);
   }, [date, schedule, blocks, booked]);
 
   const allowedDays = useMemo(() => new Set(schedule.filter((s) => s.active).map((s) => s.weekday)), [schedule]);
