@@ -142,6 +142,31 @@ Deno.serve(async (req) => {
   // Log attempt before insert (best effort)
   await supabase.from("booking_rate_limit").insert({ ip });
 
+  // Check slot conflict: any appointment overlapping this time window blocks the booking
+  const slotEnd = new Date(startsAt.getTime() + data.duration_minutes * 60 * 1000).toISOString();
+  const { data: conflicts, error: conflictError } = await supabase
+    .from("appointments")
+    .select("id,starts_at,duration_minutes,status")
+    .neq("status", "cancelado")
+    .lt("starts_at", slotEnd)
+    .gte("starts_at", new Date(startsAt.getTime() - 8 * 60 * 60 * 1000).toISOString());
+
+  if (conflictError) {
+    console.error("conflict lookup failed", conflictError);
+  } else if (conflicts && conflicts.length > 0) {
+    const overlaps = conflicts.some((a) => {
+      const aStart = new Date(a.starts_at).getTime();
+      const aEnd = aStart + (a.duration_minutes ?? 60) * 60 * 1000;
+      return aStart < new Date(slotEnd).getTime() && aEnd > startsAt.getTime();
+    });
+    if (overlaps) {
+      return new Response(
+        JSON.stringify({ error: "Este horário acabou de ser reservado. Por favor, escolha outro." }),
+        { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+  }
+
   // Upsert client (best effort)
   await supabase.from("clients").insert({ name: data.name, phone: data.phone });
 
