@@ -75,3 +75,54 @@ export function formatSlot(d: Date) {
 }
 
 export { startOfDay };
+
+export type SlotWithStatus = { date: Date; booked: boolean };
+
+/** Compute all slots for the date, marking booked ones (still hides past and blocked). */
+export function computeSlotsWithStatus(
+  date: Date,
+  schedule: WeeklyScheduleRow[],
+  blocks: ScheduleBlock[],
+  booked: BookedAppointment[],
+  now: Date = new Date(),
+): SlotWithStatus[] {
+  const day = date.getDay();
+  const row = schedule.find((r) => r.weekday === day && r.active);
+  if (!row) return [];
+
+  const start = parseTimeOnDate(date, row.start_time);
+  const end = parseTimeOnDate(date, row.end_time);
+
+  const result: SlotWithStatus[] = [];
+  let cur = start;
+  while (isBefore(cur, end)) {
+    const slot = new Date(cur);
+    const slotEnd = addMinutes(slot, row.slot_minutes);
+    cur = addMinutes(cur, row.slot_minutes);
+
+    if (isSameDay(slot, now) && isBefore(slot, now)) continue;
+
+    let isBlocked = false;
+    for (const b of blocks) {
+      const bs = new Date(b.starts_at);
+      const be = new Date(b.ends_at);
+      if (isBefore(slot, be) && isAfter(slotEnd, bs)) {
+        isBlocked = true;
+        break;
+      }
+    }
+    if (isBlocked) continue;
+
+    let isBooked = false;
+    for (const a of booked) {
+      const as = new Date(a.starts_at);
+      const ae = addMinutes(as, a.duration_minutes);
+      if (isBefore(slot, ae) && isAfter(slotEnd, as)) {
+        isBooked = true;
+        break;
+      }
+    }
+    result.push({ date: slot, booked: isBooked });
+  }
+  return result;
+}
