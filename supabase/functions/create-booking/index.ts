@@ -161,7 +161,7 @@ Deno.serve(async (req) => {
     });
     if (overlaps) {
       return new Response(
-        JSON.stringify({ error: "Este horário acabou de ser reservado. Por favor, escolha outro." }),
+        JSON.stringify({ error: "Este horário já foi reservado por outro cliente. Por favor, escolha outro horário disponível." }),
         { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
