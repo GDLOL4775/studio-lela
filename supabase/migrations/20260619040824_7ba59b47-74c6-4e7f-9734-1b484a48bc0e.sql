@@ -1,0 +1,1 @@
+DELETE FROM public.booking_rate_limit WHERE created_at > now() - interval '2 hours';

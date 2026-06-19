@@ -11,7 +11,7 @@ const BodySchema = z.object({
   duration_minutes: z.number().int().min(15).max(480),
 });
 
-const MAX_PER_HOUR = 5;
+const MAX_PER_HOUR = 30;
 
 async function sendTelegramNotification(appointment: {
   name: string;

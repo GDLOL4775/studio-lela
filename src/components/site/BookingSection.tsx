@@ -116,7 +116,25 @@ export function BookingSection() {
       },
     });
 
-    const resultError = result && typeof result === "object" && "error" in result ? (result as { error?: string }).error : undefined;
+    let resultError: string | undefined;
+    if (result && typeof result === "object" && "error" in result) {
+      resultError = (result as { error?: string }).error;
+    }
+    // supabase-js exposes the response body for non-2xx via error.context
+    if (!resultError && error && (error as any).context?.json) {
+      try {
+        const ctx = await (error as any).context.json();
+        if (ctx?.error) resultError = ctx.error;
+      } catch {}
+    }
+    if (!resultError && error && (error as any).context?.text) {
+      try {
+        const txt = await (error as any).context.text();
+        const parsed = JSON.parse(txt);
+        if (parsed?.error) resultError = parsed.error;
+      } catch {}
+    }
+
     if (error || resultError) {
       const msg = resultError || "Não conseguimos salvar seu agendamento. Tente novamente.";
       console.error(error || msg);
