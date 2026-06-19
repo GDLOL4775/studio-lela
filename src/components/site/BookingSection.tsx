@@ -196,19 +196,37 @@ export function BookingSection() {
                 ) : (
                   <div className="grid grid-cols-3 gap-2">
                     {slots.map((s) => {
-                      const active = slot && s.getTime() === slot.getTime();
+                      const active = slot && s.date.getTime() === slot.getTime();
+                      if (s.booked) {
+                        return (
+                          <button
+                            type="button"
+                            key={s.date.toISOString()}
+                            onClick={() =>
+                              toast.error("Horário indisponível", {
+                                description: "Este horário já foi agendado. Escolha outro horário disponível.",
+                              })
+                            }
+                            aria-disabled="true"
+                            title="Já agendado"
+                            className="px-3 py-2 rounded-lg text-sm font-medium border border-border/40 bg-muted/60 text-muted-foreground/70 line-through cursor-not-allowed opacity-60"
+                          >
+                            {formatSlot(s.date)}
+                          </button>
+                        );
+                      }
                       return (
                         <button
                           type="button"
-                          key={s.toISOString()}
-                          onClick={() => setSlot(s)}
+                          key={s.date.toISOString()}
+                          onClick={() => setSlot(s.date)}
                           className={`px-3 py-2 rounded-lg text-sm font-medium border transition-smooth ${
                             active
                               ? "gradient-primary text-primary-foreground border-transparent shadow-soft"
                               : "border-border bg-background hover:bg-secondary"
                           }`}
                         >
-                          {formatSlot(s)}
+                          {formatSlot(s.date)}
                         </button>
                       );
                     })}
